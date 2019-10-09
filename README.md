@@ -216,3 +216,26 @@ WHERE  o.order_date is NULL
   - the `id` should be the primary key for the table.
   - account `name` should be unique.
   - account `budget` is required.
+
+```
+-- Table: public.accounts
+
+-- DROP TABLE public.accounts;
+
+CREATE TABLE public.accounts
+(
+    name character varying(50)[] COLLATE pg_catalog."default" NOT NULL,
+    id integer NOT NULL,
+    budget integer NOT NULL,
+    CONSTRAINT accounts_pkey PRIMARY KEY (id),
+    CONSTRAINT name_unique UNIQUE (name)
+
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.accounts
+    OWNER to postgres;
+```
