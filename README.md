@@ -96,25 +96,50 @@ WHERE upper(contact_title) LIKE '%MARKET%'
 * the postal code is '111'
 * the country is 'Middle Earth'
 > This can be done with the INSERT INTO clause
-
+```
+INSERT INTO customers(customer_id, company_name, contact_name, address, city, postal_code, country)
+VALUES('SHIRE', 'The Shire', 'Bilbo Baggins', '1 Hobbit-Hole', 'Bag End', '111', 'Middle Earth')
+```
 
 ### update _Bilbo Baggins_ record so that the postal code changes to _"11122"_.
 > This can be done with UPDATE and WHERE clauses
-
+```
+UPDATE customers
+SET postal_code = '11122'
+WHERE customer_id = 'SHIRE'
+```
 
 ### list orders grouped by customer showing the number of orders per customer. _Rattlesnake Canyon Grocery_ should have 18 orders.
 > This can be done with SELECT, COUNT, JOIN and GROUP BY clauses. Your count should focus on a field in the Orders table, not the Customer table
+```
+SELECT c.company_name, count(o.customer_id)
+FROM orders o JOIN customers c
+on o.customer_id = c.customer_id
+GROUP BY o.customer_id, c.company_name
+```
 
 > There is more information about the COUNT clause on [W3 Schools](https://www.w3schools.com/sql/sql_count_avg_sum.asp)
 
 
 ### list customers names and the number of orders per customer. Sort the list by number of orders in descending order. _Save-a-lot Markets should be at the top with 31 orders followed by _Ernst Handle_ with 30 orders. Last should be _Centro comercial Moctezuma_ with 1 order.
 > This can be done by adding an ORDER BY clause to the previous answer
-
+```
+SELECT c.company_name, count(o.customer_id)
+FROM orders o JOIN customers c
+on o.customer_id = c.customer_id
+GROUP BY o.customer_id, c.company_name
+ORDER BY count(o.customer_id) desc
+```
 
 ### list orders grouped by customer's city showing number of orders per city. Returns 69 Records with _Aachen_ showing 6 orders and _Albuquerque_ showing 18 orders.
 > This is very similar to the previous two queries, however, it focuses on the City rather than the CustomerName
-
+```
+SELECT distinct c.city, count(c.city)
+FROM orders o JOIN customers c
+on o.customer_id = c.customer_id
+GROUP BY c.city
+ORDER BY count(c.city) desc
+```
 
 ## Data Normalization
 
@@ -128,6 +153,8 @@ Take the following data and normalize it into a 3NF database.  You can use the w
 | Bob         | Joe      | Horse    |            |            |            |            | No          | No           |
 | Sam         | Ginger   | Dog      | Miss Kitty | Cat        | Bubble     | Fish       | Yes         | No           |
 
+
+## Person Table
 ---
 ## Stretch Goals
 
