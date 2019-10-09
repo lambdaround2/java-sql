@@ -134,11 +134,11 @@ ORDER BY count(o.customer_id) desc
 ### list orders grouped by customer's city showing number of orders per city. Returns 69 Records with _Aachen_ showing 6 orders and _Albuquerque_ showing 18 orders.
 > This is very similar to the previous two queries, however, it focuses on the City rather than the CustomerName
 ```
-SELECT distinct c.city, count(c.city)
+SELECT c.city as CITY , count(c.city) as TOTAL
 FROM orders o JOIN customers c
 on o.customer_id = c.customer_id
 GROUP BY c.city
-ORDER BY count(c.city) desc
+ORDER BY c.city
 ```
 
 ## Data Normalization
@@ -190,6 +190,16 @@ Take the following data and normalize it into a 3NF database.  You can use the w
 > In the WHERE clause, you can provide another list with an IN keyword this list can be the result of another SELECT query. Write a query to return a list of CustomerIDs that meet the criteria above. Pass that to the IN keyword of the WHERE clause as the list of IDs to be deleted
  
 > Use a LEFT JOIN to join the Orders table onto the Customers table and check for a NULL value in the OrderID column
+```
+DELETE 
+FROM customers
+WHERE customer_id IN (
+SELECT c.customer_id
+FROM   customers c LEFT JOIN orders o
+ON     o.customer_id = c.customer_id
+WHERE  o.order_date is NULL
+)
+```
 
 ## Create Database and Table
 
